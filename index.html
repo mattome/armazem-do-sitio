@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armazém do Sítio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfcf9;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    h2 {
+      padding-left: 20px;
+      margin-top: 30px;
+    }
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 20px;
+      grid-auto-rows: auto;
+    }
+    .produto {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .produto img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    #botao-carrinho {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff9800;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    #carrinho-modal {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #fff3cd;
+      border-top: 2px solid #ffeb3b;
+      padding: 20px;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+    #carrinho-modal h2 {
+      margin-top: 0;
+    }
+    .categoria-botao {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 5px;
+    }
+    .categoria-botao:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Armazém do Sítio</h1>
+    <p>Produtos artesanais e hortifrúti direto do campo para você!</p>
+  </header>
+
+  <!-- Botão para filtrar produtos hortifrúti -->
+  <div style="text-align:center; margin-bottom: 20px;">
+    <button class="categoria-botao" onclick="mostrarCategoria('hortifruiti')">Hortifrúti</button>
+    <button class="categoria-botao" onclick="mostrarCategoria('artesanais')">Produtos Artesanais</button>
+  </div>
+
+  <!-- Produtos Hortifrúti com filtro -->
+  <section id="hortifruiti" class="produtos">
+    <div class="produto">
+      <img src="imagens/tomate.webp" alt="Tomate">
+      <h3>Tomate</h3>
+      <p>R$ 6,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-tomate">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Tomate', 6.00, document.getElementById('peso-tomate').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/cebola.webp" alt="Cebola">
+      <h3>Cebola</h3>
+      <p>R$ 4,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-cebola">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Cebola', 4.00, document.getElementById('peso-cebola').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/batata.webp" alt="Batata">
+      <h3>Batata</h3>
+      <p>R$ 5,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-batata">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Batata', 5.00, document.getElementById('peso-batata').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/alface.webp" alt="Alface">
+      <h3>Alface</h3>
+      <p>R$ 3,00 (unidade)</p>
+      <label>Quantidade:
+        <input type="number" min="1" value="1" id="qtd-alface">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Alface', 3.00, document.getElementById('qtd-alface').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/maca.webp" alt="Maçã">
+      <h3>Maçã</h3>
+      <p>R$ 7,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-maca">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Maçã', 7.00, document.getElementById('peso-maca').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/banana.webp" alt="Banana">
+      <h3>Banana</h3>
+      <p>R$ 5,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-banana">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Banana', 5.00, document.getElementById('peso-banana').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/laranja.webp" alt="Laranja">
+      <h3>Laranja</h3>
+      <p>R$ 4,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-laranja">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Laranja', 4.00, document.getElementById('peso-laranja').value)">Adicionar</button>
+    </div>
+  
+    <div class="produto">
+      <img src="imagens/pera.webp" alt="Pera">
+      <h3>Pera</h3>
+      <p>R$ 8,00 / kg</p>
+      <label>Peso (kg):
+        <input type="number" min="0.5" step="0.5" value="1" id="peso-pera">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Pera', 8.00, document.getElementById('peso-pera').value)">Adicionar</button>
+    </div>
+  </section>
+
+  <!-- Produtos Artesanais -->
+  <section id="artesanais" class="produtos">
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150" alt="Geleia Caseira">
+      <h3>Geleia Caseira</h3>
+      <p>R$ 15,00 (unidade)</p>
+      <label>Quantidade:
+        <input type="number" min="1" value="1" id="qtd-geleia">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Geleia Caseira', 15.00, document.getElementById('qtd-geleia').value)">Adicionar</button>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150" alt="Compota de Goiaba">
+      <h3>Compota de Goiaba</h3>
+      <p>R$ 20,00 (unidade)</p>
+      <label>Quantidade:
+        <input type="number" min="1" value="1" id="qtd-compota">
+      </label><br><br>
+      <button onclick="adicionarCarrinho('Compota de Goiaba', 20.00, document.getElementById('qtd-compota').value)">Adicionar</button>
+    </div>
+  </section>
+
+  <button id="botao-carrinho" onclick="abrirCarrinho()">🛒 Carrinho</button>
+
+  <div id="carrinho-modal">
+    <h2>Seu Carrinho</h2>
+    <ul id="lista-carrinho"></ul>
+    <strong>Total: R$ <span id="total">0.00</span></strong><br><br>
+    <button onclick="enviarWhatsApp()">Finalizar Pedido via WhatsApp</button>
+    <br><br>
+    <button onclick="fecharCarrinho()">Fechar</button>
+  </div>
+
+  <script>
+    let carrinho = [];
+
+    function adicionarCarrinho(nome, preco, quantidade) {
+      quantidade = parseFloat(quantidade);
+      const subtotal = preco * quantidade;
+      carrinho.push({ nome, quantidade, subtotal });
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById("lista-carrinho");
+      const totalSpan = document.getElementById("total");
+      lista.innerHTML = "";
+      let total = 0;
+      carrinho.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nome} - ${item.quantidade} x R$ ${item.subtotal.toFixed(2)}`;
+        lista.appendChild(li);
+        total += item.subtotal;
+      });
+      totalSpan.textContent = total.toFixed(2);
+    }
+
+    function abrirCarrinho() {
+      document.getElementById("carrinho-modal").style.display = "block";
+    }
+
+    function fecharCarrinho() {
+      document.getElementById("carrinho-modal").style.display = "none";
+    }
+
+    function enviarWhatsApp() {
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+      }
+      let mensagem = "Olá! Gostaria de fazer o seguinte pedido:%0A";
+      carrinho.forEach(item => {
+        mensagem += `- ${item.nome}: ${item.quantidade} unidade(s)/kg - R$ ${item.subtotal.toFixed(2)}%0A`;
+      });
+      const total = carrinho.reduce((soma, item) => soma + item.subtotal, 0);
+      mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
+      window.open(`https://wa.me/5599999999999?text=${mensagem}`, '_blank');
+    }
+
+    // Função para mostrar as categorias de produtos
+    function mostrarCategoria(categoria) {
+      if (categoria === 'hortifruiti') {
+        document.getElementById("hortifruiti").style.display = "grid";
+        document.getElementById("artesanais").style.display = "none";
+      } else if (categoria === 'artesanais') {
+        document.getElementById("hortifruiti").style.display = "none";
+        document.getElementById("artesanais").style.display = "grid";
+      }
+    }
+
+    // Exibe produtos hortifrúti por padrão
+    mostrarCategoria('hortifruiti');
+  </script>
+</body>
+</html>
