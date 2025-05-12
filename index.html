@@ -351,7 +351,7 @@
 
       carrinho.forEach((item, index) => {
         const li = document.createElement('li');
-        li.innerHTML = ${item.nome} - R$ ${item.preco} / ${item.unidade} <button class="remove-item" onclick="removerItem(${index})">Remover</button>;
+        li.innerHTML = `${item.nome} - R$ ${item.preco} / ${item.unidade} <button class="remove-item" onclick="removerItem(${index})">Remover</button>`;
         listaCarrinho.appendChild(li);
       });
     }
@@ -367,8 +367,8 @@
     }
 
     function enviarWhatsapp() {
-      const mensagem = carrinho.map(item => ${item.nome} - R$ ${item.preco}).join('%0A');
-      const link = https://wa.me/5511XXXXXXXXX?text=Olá,%20quero%20fazer%20um%20pedido:%0A${mensagem};
+      const mensagem = carrinho.map(item => `${item.nome} - R$ ${item.preco}`).join('%0A');
+      const link = `https://wa.me/5511955305280?text=Olá,%20quero%20fazer%20um%20pedido:%0A${mensagem}`;
       window.open(link, '_blank');
     }
   </script>
