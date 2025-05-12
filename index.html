@@ -63,8 +63,9 @@
     }
 
     .produto {
+      height: 300px;
       flex: 0 0 auto;
-      width: 200px;
+      width: 160px;
       background-color: white;
       border: 1px solid #ddd;
       border-radius: 10px;
@@ -106,11 +107,10 @@
 
     .banner img {
       width: 100%;
-      height: 200%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
+      height: auto;
+      max-height: 400px;
     }
+
 
     .remove-item {
       background-color: #ff6347;
@@ -236,6 +236,18 @@
     .contatos ul li a i {
       font-size: 20px;
     }
+
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 9998;
+      /* Um abaixo do modal */
+    }
   </style>
 </head>
 
@@ -246,8 +258,9 @@
       <h1>Armazém do Sítio</h1>
       <p style="margin: 0">Produtos artesanais e hortifrúti direto do campo para você!</p>
     </div>
-    <button id="botao-carrinho" onclick="toggleCarrinho()">🛒 Carrinho (<span
-        id="quantidade-carrinho">0</span>)</button>
+    <button id="botao-carrinho" onclick="toggleCarrinho()"><i class="fas fa-shopping-cart"></i> Carrinho (<span
+        id="quantidade-carrinho">0</span>)
+    </button>
   </header>
 
   <div class="banner">
@@ -343,7 +356,8 @@
     <div class="contatos">
       <h3>Nos siga nas redes sociais</h3>
       <ul>
-        <li><a href="https://www.instagram.com/matheustomez" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="https://www.instagram.com/matheustomez" target="_blank"><i class="fab fa-instagram"></i>
+            Instagram</a></li>
         <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
         <li><a href="https://wa.me/5511955305280" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
       </ul>
@@ -396,7 +410,16 @@
 
       carrinho.forEach((item, index) => {
         const li = document.createElement('li');
-        li.innerHTML = `${item.nome} (${item.quantidade}) - R$ ${(item.preco * item.quantidade).toFixed(2)} / ${item.unidade} <button class="remove-item" onclick="removerItem(${index})">Remover</button>`;
+        li.innerHTML = `
+          ${item.nome}  
+          <span>${item.quantidade}</span>
+          <span style="display: inline-flex; align-items: center; gap: 4px;">
+            <button onclick="alterarQuantidade(${index}, -1)">−</button>
+            <button onclick="alterarQuantidade(${index}, 1)">+</button>
+          </span>
+          - R$ ${(item.preco * item.quantidade).toFixed(2)} / ${item.unidade}
+        `;
+
         listaCarrinho.appendChild(li);
 
         total += item.preco * item.quantidade; // Calcula o total
@@ -405,6 +428,21 @@
       document.getElementById('total-carrinho').textContent = `Total: R$ ${total.toFixed(2)}`;
     }
 
+    function alterarQuantidade(index, quantidadeAlterar) {
+      const item = carrinho[index];
+
+      // Atualiza a quantidade com a alteração (+ ou -)
+      item.quantidade += quantidadeAlterar;
+
+      // Se a quantidade for 0 ou negativa, remove o item do carrinho
+      if (item.quantidade <= 0) {
+        carrinho.splice(index, 1);
+      }
+
+      atualizarCarrinho(); // Atualiza o carrinho com as alterações
+    }
+
+
     function removerItem(index) {
       carrinho.splice(index, 1);
       atualizarCarrinho();
@@ -412,15 +450,49 @@
 
     function toggleCarrinho() {
       const carrinhoModal = document.getElementById('carrinho-modal');
-      carrinhoModal.style.display = carrinhoModal.style.display === 'none' || carrinhoModal.style.display === '' ? 'block' : 'none';
+      const overlay = document.getElementById('overlay');
+      const estaAberto = carrinhoModal.style.display === 'block';
+
+      if (estaAberto) {
+        carrinhoModal.style.display = 'none';
+        overlay.style.display = 'none';
+      } else {
+        carrinhoModal.style.display = 'block';
+        overlay.style.display = 'block';
+      }
     }
 
+
+    function fecharCarrinho() {
+      document.getElementById('carrinho-modal').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+
+
+
     function enviarWhatsapp() {
-      const mensagem = carrinho.map(item => `${item.nome} - R$ ${item.preco}`).join('%0A');
-      const link = `https://wa.me/5511955305280?text=Olá,%20quero%20fazer%20um%20pedido:%0A${mensagem}`;
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio.");
+        return;
+      }
+
+      let mensagem = "Olá, quero fazer um pedido:%0A";
+      let total = 0;
+
+      carrinho.forEach(item => {
+        const subtotal = item.preco * item.quantidade;
+        mensagem += `• ${item.nome} (${item.quantidade} ${item.unidade}) - R$ ${subtotal.toFixed(2)}%0A`;
+        total += subtotal;
+      });
+
+      mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
+      const link = `https://wa.me/5511955305280?text=${mensagem}`;
       window.open(link, '_blank');
     }
   </script>
+
+  <div id="overlay" onclick="toggleCarrinho()"></div>
+
 </body>
 
 </html>
