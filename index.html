@@ -78,41 +78,29 @@
       border-radius: 10px;
     }
 
-    .arrow {
-      background-color: #1c1600;
-      color: white;
-      border: none;
-      font-size: 2rem;
-      cursor: pointer;
-      padding: 0.5rem 0.8rem;
-      border-radius: 50%;
-      z-index: 2;
-    }
-
-    .arrow.left {
-      margin-right: 0.5rem;
-    }
-
-    .arrow.right {
-      margin-left: 0.5rem;
-    }
 
     #carrinho-modal {
-  display: none;
-  position: fixed; /* Mantém o carrinho fixo na tela */
-  top: 70px; /* Distância do topo */
-  right: 20px; /* Distância da borda direita */
-  width: 500px;
-  background: #fff8e1;
-  border: 2px solid #ff6f00;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  z-index: 9999; /* Garante que o carrinho fique no topo */
-  transition: all 0.3s ease;
-  max-height: 80%; /* Limita a altura do carrinho */
-  overflow-y: auto; /* Permite rolar os itens do carrinho */
-}
+      display: none;
+      position: fixed;
+      /* Mantém o carrinho fixo na tela */
+      top: 70px;
+      /* Distância do topo */
+      right: 20px;
+      /* Distância da borda direita */
+      width: 500px;
+      background: #fff8e1;
+      border: 2px solid #ff6f00;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      z-index: 9999;
+      /* Garante que o carrinho fique no topo */
+      transition: all 0.3s ease;
+      max-height: 80%;
+      /* Limita a altura do carrinho */
+      overflow-y: auto;
+      /* Permite rolar os itens do carrinho */
+    }
 
 
 
@@ -210,8 +198,47 @@
         padding: 0.4rem 0.6rem;
       }
     }
+
+    footer {
+      background-color: #181300;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .contatos h3 {
+      margin-bottom: 10px;
+    }
+
+    .contatos ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .contatos ul li {
+      margin: 10px 0;
+    }
+
+    .contatos ul li a {
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .contatos ul li a:hover {
+      color: #ff6f00;
+    }
+
+    .contatos ul li a i {
+      font-size: 20px;
+    }
   </style>
 </head>
+
 
 <body>
   <header>
@@ -230,7 +257,6 @@
   <section>
     <h2>Frutas</h2>
     <div class="carousel-container">
-      <button class="arrow left" onclick="scrollCarousel('frutas', -300)">&#8592;</button>
       <div class="carousel" id="frutas">
         <div class="produto"><img src="imagens/maca.webp" alt="Maçã">
           <h3>Maçã</h3>
@@ -258,12 +284,10 @@
               class="fas fa-plus-circle"></i> Adicionar</button>
         </div>
       </div>
-      <button class="arrow right" onclick="scrollCarousel('frutas', 300)">&#8594;</button>
     </div>
 
     <h2>Vegetais</h2>
     <div class="carousel-container">
-      <button class="arrow left" onclick="scrollCarousel('vegetais', -300)">&#8592;</button>
       <div class="carousel" id="vegetais">
         <div class="produto"><img src="imagens/cenoura.webp" alt="Cenoura">
           <h3>Cenoura</h3>
@@ -291,16 +315,14 @@
               class="fas fa-plus-circle"></i> Adicionar</button>
         </div>
       </div>
-      <button class="arrow right" onclick="scrollCarousel('vegetais', 300)">&#8594;</button>
     </div>
 
     <h2>Produtos Artesanais</h2>
     <div class="carousel-container">
-      <button class="arrow left" onclick="scrollCarousel('artesanais', -300)">&#8592;</button>
       <div class="carousel" id="artesanais">
         <div class="produto"><img src="imagens/geleiaCaseira.webp" alt="Geleia caseira">
           <h3>Geleia</h3>
-          <p>R$ 15,00 / pote</p><button onclick="adicionarAoCarrinho('Mel', 15.00, 'pote')"><i
+          <p>R$ 15,00 / pote</p><button onclick="adicionarAoCarrinho('Geleia', 15.00, 'pote')"><i
               class="fas fa-plus-circle"></i> Adicionar</button>
         </div>
         <div class="produto"><img src="imagens/queijo.webp" alt="Queijo">
@@ -314,15 +336,26 @@
               class="fas fa-plus-circle"></i> Adicionar</button>
         </div>
       </div>
-      <button class="arrow right" onclick="scrollCarousel('artesanais', 300)">&#8594;</button>
     </div>
   </section>
+
+  <footer>
+    <div class="contatos">
+      <h3>Nos siga nas redes sociais</h3>
+      <ul>
+        <li><a href="https://www.instagram.com/matheustomez" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+        <li><a href="https://wa.me/5511955305280" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <div id="carrinho-modal">
     <h2>Carrinho</h2>
     <ul id="lista-carrinho">
       <!-- Itens do carrinho vão aparecer aqui -->
     </ul>
+    <p id="total-carrinho" style="font-weight: bold; text-align: right; margin-top: 10px;">Total: R$ 0,00</p>
     <div style="text-align: center;">
       <button id="btn-whatsapp" onclick="enviarWhatsapp()">Fazer pedido via WhatsApp</button>
     </div>
@@ -337,8 +370,18 @@
     }
 
     function adicionarAoCarrinho(nome, preco, unidade) {
-      const item = { nome, preco, unidade };
-      carrinho.push(item);
+      // Verifica se o item já está no carrinho
+      const itemExistente = carrinho.find(item => item.nome === nome);
+
+      if (itemExistente) {
+        // Se o item já existir, apenas incrementa a quantidade
+        itemExistente.quantidade += 1;
+      } else {
+        // Caso contrário, adiciona o item com quantidade 1
+        const item = { nome, preco, unidade, quantidade: 1 };
+        carrinho.push(item);
+      }
+
       atualizarCarrinho();
     }
 
@@ -349,11 +392,17 @@
       const listaCarrinho = document.getElementById('lista-carrinho');
       listaCarrinho.innerHTML = '';
 
+      let total = 0;
+
       carrinho.forEach((item, index) => {
         const li = document.createElement('li');
-        li.innerHTML = `${item.nome} - R$ ${item.preco} / ${item.unidade} <button class="remove-item" onclick="removerItem(${index})">Remover</button>`;
+        li.innerHTML = `${item.nome} (${item.quantidade}) - R$ ${(item.preco * item.quantidade).toFixed(2)} / ${item.unidade} <button class="remove-item" onclick="removerItem(${index})">Remover</button>`;
         listaCarrinho.appendChild(li);
+
+        total += item.preco * item.quantidade; // Calcula o total
       });
+      // Atualiza o total no carrinho
+      document.getElementById('total-carrinho').textContent = `Total: R$ ${total.toFixed(2)}`;
     }
 
     function removerItem(index) {
